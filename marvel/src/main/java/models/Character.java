@@ -4,12 +4,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@NoArgsConstructor
-@RequiredArgsConstructor
-//Above generates 2 constructors for each field requiring to be non null
 public class Character {
 
-    public Character(@NonNull Integer id){
+    public Character() {
 
     }
 

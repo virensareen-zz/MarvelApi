@@ -1,37 +1,58 @@
 package service;
 import models.Character;
+import models.MarvelResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigInteger;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
-public class MarvelApiService implements MarvelApiServiceInterface {
+public class MarvelApiService {
 
     private static final String baseUri = "http://gateway.marvel.com/v1/public/";
 
     public List<Integer> getCharacterIds() throws Exception {
 
-        String uri = baseUri + "comics?" + generateAuthInfo();
+        String uri = baseUri + "characters?" + generateAuthInfo();
         RestTemplate restTemplate = new RestTemplate();
         List<Integer> ids = new ArrayList<>();
 
         try {
-            Character character = restTemplate.getForObject(uri, Character.class);
-            ids.add(character.getId());
+            MarvelResponse response = new MarvelResponse();
+            response = restTemplate.getForObject(uri, MarvelResponse.class);
+
+            for (Character character : response.data.results) {
+                ids.add(character.getId());
+            }
         }
         catch (RestClientException e) {
             e.printStackTrace();
         }
 
         return ids;
+    }
+
+    public Character getCharacter(Integer id) throws Exception {
+        String uri = baseUri + "characters/" + id + "?" + generateAuthInfo();
+        RestTemplate restTemplate = new RestTemplate();
+        Character character = new Character();
+
+        try {
+            MarvelResponse response = new MarvelResponse();
+            response = restTemplate.getForObject(uri, MarvelResponse.class);
+
+            character = response.data.results.get(0);
+        }
+        catch (RestClientException e) {
+            e.printStackTrace();
+        }
+
+        return character;
     }
 
     //Method to generate authentication to access the api
@@ -44,32 +65,38 @@ public class MarvelApiService implements MarvelApiServiceInterface {
         return "ts=" + timeStamp + "&apikey=" + publicKey + "&hash=" + getMd5(stringToHash);
     }
 
-    //Method to create an MD5 hash value
+    //Method to create an MD5 digest
     private static String getMd5(String input)
     {
         try {
-
             // Static getInstance method is called with hashing MD5
             MessageDigest md = MessageDigest.getInstance("MD5");
 
             // digest() method is called to calculate message digest
             //  of an input digest() return array of byte
-            byte[] messageDigest = md.digest(input.getBytes());
+            byte[] messageDigest = DigestUtils.md5Digest(input.getBytes("UTF-8"));
 
-            // Convert byte array into signum representation
-            BigInteger no = new BigInteger(1, messageDigest);
-
-            // Convert message digest into hex value
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
+            // Convert to string
+            return toHexString(messageDigest);
         }
 
         // For specifying wrong message digest algorithms
-        catch (NoSuchAlgorithmException e) {
+        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String toHexString(byte[] digest) {
+        StringBuilder hexString = new StringBuilder();
+
+        for (int i = 0; i < digest.length; i++) {
+            String hex = Integer.toHexString(0xFF & digest[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+
+        return hexString.toString();
     }
 }

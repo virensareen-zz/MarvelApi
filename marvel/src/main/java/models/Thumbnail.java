@@ -7,6 +7,17 @@ public class Thumbnail {
     @NonNull
     private String path;
 
+    @NonNull
+    private String extension;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public String getExtension() {
         return extension;
     }
@@ -15,8 +26,7 @@ public class Thumbnail {
         this.extension = extension;
     }
 
-    @NonNull
-    private String extension;
+
 
     public Thumbnail() {
     }
