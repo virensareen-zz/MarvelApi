@@ -10,7 +10,7 @@ import service.MarvelApiService;
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping
 public class CharacterController {
 
     @Autowired
@@ -23,7 +23,12 @@ public class CharacterController {
     }
 
     @GetMapping("/characters/{id}")
-    public Character getCharacter(@PathVariable Integer id) throws Exception {
-        return marvelApiService.getCharacter(id);
+    public Character getCharacter(@PathVariable Integer id, @RequestParam(required = false) String language) throws Exception {
+        Character character = marvelApiService.getCharacter(id);
+
+        String translatedDescription = GoogleTranslate.translate(language, character.getDescription());
+        character.setDescription(translatedDescription);
+
+        return character;
     }
 }
