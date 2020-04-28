@@ -10,5 +10,8 @@
         <module name="marvel.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="marvel.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

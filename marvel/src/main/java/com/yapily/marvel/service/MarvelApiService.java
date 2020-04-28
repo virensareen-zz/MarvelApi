@@ -57,8 +57,8 @@ public class MarvelApiService {
 
     //Method to generate authentication to access the api
     private static String generateAuthInfo() throws Exception {
-        String publicKey = "c89f61e9a213cb3bae3a62bdc32dce3c";
-        String privateKey = "ed2c46a8dd1915580ff758d8a65893f86c56758e";
+        String publicKey = System.getenv("PUBLIC_KEY");
+        String privateKey = System.getenv("PRIVATE_KEY");
         String timeStamp = String.valueOf(new Date().getTime());
         String stringToHash = timeStamp + privateKey + publicKey;
 
