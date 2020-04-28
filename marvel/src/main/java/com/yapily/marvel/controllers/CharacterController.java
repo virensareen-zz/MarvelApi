@@ -1,11 +1,11 @@
-package controllers;
+package com.yapily.marvel.controllers;
 
 import libraries.GoogleTranslate;
-import models.Character;
+import com.yapily.marvel.models.Character;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import service.MarvelApiService;
+import com.yapily.marvel.service.MarvelApiService;
 
 import java.util.List;
 

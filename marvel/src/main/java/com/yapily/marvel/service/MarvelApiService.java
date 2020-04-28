@@ -1,6 +1,6 @@
-package service;
-import models.Character;
-import models.MarvelResponse;
+package com.yapily.marvel.service;
+import com.yapily.marvel.models.Character;
+import com.yapily.marvel.models.MarvelResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.client.RestClientException;

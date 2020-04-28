@@ -1,8 +1,6 @@
-package models;
+package com.yapily.marvel.models;
 
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 public class Character {
 

@@ -1,4 +1,4 @@
-package models;
+package com.yapily.marvel.models;
 
 import java.util.List;
 

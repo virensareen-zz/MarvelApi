@@ -1,6 +1,4 @@
-package models;
-
-import org.springframework.http.HttpStatus;
+package com.yapily.marvel.models;
 
 public class MarvelResponse {
 

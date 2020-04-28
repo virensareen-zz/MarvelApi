@@ -3,6 +3,8 @@
 // (powered by Fernflower decompiler)
 //
 
+// Note that this was a library downloaded from Git. Not programmed by me.
+
 package libraries;
 
 import java.io.IOException;
