@@ -1,4 +1,4 @@
-# Project Title
+# Marvel Character API
 
 A Spring Boot project fetching characters data from the Marvel Api, aka the Yapily coding challenge.
 
